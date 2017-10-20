@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Јела</string>
+    <string name="first_activity_name">Прва активност</string>
+    <string name="second_activity_name">Друга активност</string>
+    <string name="third_activity_name">Трећа активност</string>
+    <string name="starting_activity">Започни активност</string>
+    <string name="opening_activity">Отварање веб претраживача</string>
+    <string name="naziv_jela">Назив јела</string>
+    <string name="description">Опис јела</string>
+    <string name="cena">Цена</string>
+    <string name="cal">Калорије</string>
+
+    <string name="detail_heading">Детаљи веб стране</string>
+    <string name="list_heading">Списак веб страна</string>
+    <string name="order">Наручите жељено јело</string>
+
+
+</resources>

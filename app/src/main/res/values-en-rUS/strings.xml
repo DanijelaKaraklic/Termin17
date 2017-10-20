@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Meals</string>
+    <string name="first_activity_name">First Activity</string>
+    <string name="second_activity_name">Second Activity</string>
+    <string name="third_activity_name">Third Activity</string>
+    <string name="starting_activity">Start an Activity</string>
+    <string name="opening_activity">Open Web Browser</string>
+    <string name="naziv_jela">Name of meal</string>
+    <string name="description">Description of meal</string>
+    <string name="cena">Price</string>
+    <string name="cal">Calory</string>
+
+
+    <string name="detail_heading">Web Page Detail</string>
+    <string name="list_heading">Web Page Listing</string>
+    <string name="order">Order the wanted meal</string>
+
+
+</resources>
