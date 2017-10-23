@@ -1,9 +1,8 @@
 package rs.aleph.android.example12.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import rs.aleph.android.example12.R;
-import rs.aleph.android.example12.activities.FirstActivity;
-import rs.aleph.android.example12.activities.SecondActivity;
 import rs.aleph.android.example12.providers.JeloProvider;
 
 /**
@@ -27,7 +24,7 @@ public class ListFragment extends Fragment {
     OnItemSelectedListener listener;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toast toast = Toast.makeText(getActivity(), "ListFragment.onCreate()", Toast.LENGTH_SHORT);
         toast.show();
@@ -35,7 +32,7 @@ public class ListFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated( Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Toast toast = Toast.makeText(getActivity(), "ListFragment.onActivityCreated()", Toast.LENGTH_SHORT);
         toast.show();
@@ -59,9 +56,9 @@ public class ListFragment extends Fragment {
 
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         Toast toast = Toast.makeText(getActivity(), "ListFragment.onCreateView()", Toast.LENGTH_SHORT);
         toast.show();
 
@@ -71,5 +68,30 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list,container,false);
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Toast toast = Toast.makeText(getActivity(), "ListFragment.onDestroyView()", Toast.LENGTH_SHORT);
+        toast.show();
+
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        Toast toast = Toast.makeText(getActivity(), "ListFragment.onAttach()", Toast.LENGTH_SHORT);
+        toast.show();
+        try {
+            listener = ( OnItemSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnItemSelectedListener");
+        }
+    }
+
+    public interface OnItemSelectedListener {
+
+        public void onItemSelected(int position);
     }
 }

@@ -26,12 +26,6 @@
         </activity>
 
         <!-- Declares 2nd activity -->
-        <activity
-            android:name=".activities.SecondActivity"
-            android:label="@string/second_activity_name">
-        </activity>
-
-
 
 
     </application>

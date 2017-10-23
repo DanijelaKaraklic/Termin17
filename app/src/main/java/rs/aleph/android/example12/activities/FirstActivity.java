@@ -1,22 +1,17 @@
 package rs.aleph.android.example12.activities;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import rs.aleph.android.example12.R;
-import rs.aleph.android.example12.providers.JeloProvider;
+import rs.aleph.android.example12.fragments.DetailFragment;
+import rs.aleph.android.example12.fragments.ListFragment;
 
 // Each activity extends Activity class
-public class FirstActivity extends Activity {
-
+public class FirstActivity extends Activity implements ListFragment.OnItemSelectedListener {
+	boolean landscape = false;
 
 	// onCreate method is a lifecycle method called when he activity is starting
 	@Override
@@ -25,30 +20,35 @@ public class FirstActivity extends Activity {
 		// Each lifecycle method should call the method it overrides
 		super.onCreate(savedInstanceState);
 		// setContentView method draws UI
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_first);
 
 		// Shows a toast message (a pop-up message)
 		Toast toast = Toast.makeText(getBaseContext(), "FirstActivity.onCreate()", Toast.LENGTH_SHORT);
 		toast.show();
 
-		final List<String> mealNames = JeloProvider.getJeloNames();
 
-		// Creates an ArrayAdaptar from the array of String
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.list_item, mealNames);
+		if (savedInstanceState == null){
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			ListFragment listFragment = new ListFragment();
+			ft.add(R.id.list_view,listFragment,"List_Fragment1");
+			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			ft.commit();
+		}
 
-		ListView listView = (ListView) findViewById(R.id.listofMeals);
+		if (findViewById(R.id.detail_view) != null){
+			landscape = true;
+			getFragmentManager().popBackStack();
+			DetailFragment detailFragment = (DetailFragment)getFragmentManager().findFragmentById(R.id.detail_view);
+			if (detailFragment == null){
+				FragmentTransaction ft = getFragmentManager().beginTransaction();
+				detailFragment = new DetailFragment();
+				ft.replace(R.id.detail_view,detailFragment,"Detail_Fragment1");
+				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+				ft.commit();
 
-		// Assigns ArrayAdaptar to ListView
-		listView.setAdapter(dataAdapter);
-
-		// Starts the SecondActivity and sends it the selected URL as an extra data
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(FirstActivity.this, SecondActivity.class);
-				intent.putExtra("position", position);
-				startActivity(intent);
 			}
-		});
+		}
+
 	}
 
 	// onStart method is a lifecycle method called after onCreate (or after onRestart when the
@@ -121,8 +121,26 @@ public class FirstActivity extends Activity {
 		toast.show();
 	}
 
-	// Called when btnStart button is clicked
+	@Override
+	public void onItemSelected(int position) {
 
-	// Called when btnOpen is clicked
+		// Shows a toast message (a pop-up message)
+		Toast.makeText(getBaseContext(), "FirstActivity.onItemSelected()", Toast.LENGTH_SHORT).show();
+
+		if (landscape) {
+			// If the device is in the landscape mode updates detail fragment's content.
+			DetailFragment detailFragment = (DetailFragment) getFragmentManager().findFragmentById(R.id.detail_view);
+			detailFragment.updateContent(position);
+		} else {
+			// If the device is in the portrait mode sets detail fragment's content and replaces master fragment with detail fragment in a fragment transaction.
+			DetailFragment detailFragment = new DetailFragment();
+			detailFragment.setContent(position);
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			ft.replace(R.id.list_view, detailFragment, "Detail_Fragment_2");
+			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			ft.addToBackStack(null);
+			ft.commit();
+		}
+	}
 
 }
